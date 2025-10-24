@@ -132,25 +132,23 @@ class TestEarlyStopping:
         early_stop = EarlyStopping(patience=2, mode='min')
 
         # 損失が改善している場合
-        assert not early_stop(1.0)
-        assert not early_stop(0.9)
-        assert not early_stop(0.8)
+        assert not early_stop(1.0)  # best_score = 1.0, counter = 0
+        assert not early_stop(0.9)  # improved, best_score = 0.9, counter = 0
+        assert not early_stop(0.8)  # improved, best_score = 0.8, counter = 0
 
         # 損失が改善しない場合
-        assert not early_stop(0.85)
-        assert not early_stop(0.86)
-        assert early_stop(0.87)  # patience=2を超えた
+        assert not early_stop(0.85)  # not improved, counter = 1
+        assert early_stop(0.86)  # not improved, counter = 2 >= patience
 
     def test_early_stopping_max_mode(self):
         """最大化モードのearly stoppingをテスト"""
         early_stop = EarlyStopping(patience=2, mode='max')
 
         # 精度が改善している場合
-        assert not early_stop(0.8)
-        assert not early_stop(0.9)
-        assert not early_stop(0.95)
+        assert not early_stop(0.8)  # best_score = 0.8, counter = 0
+        assert not early_stop(0.9)  # improved, best_score = 0.9, counter = 0
+        assert not early_stop(0.95)  # improved, best_score = 0.95, counter = 0
 
         # 精度が改善しない場合
-        assert not early_stop(0.94)
-        assert not early_stop(0.93)
-        assert early_stop(0.92)  # patience=2を超えた
+        assert not early_stop(0.94)  # not improved, counter = 1
+        assert early_stop(0.93)  # not improved, counter = 2 >= patience
