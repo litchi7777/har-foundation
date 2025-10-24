@@ -1,0 +1,3 @@
+[submodule "har-unified-dataset"]
+	path = har-unified-dataset
+	url = git@github.com:litchi7777/har-unified-dataset.git
